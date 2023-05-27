@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 命名空间，可以对sql进行分类的一个管理 -->
+<mapper namespace="com.gupt.bigdata.sparkmoviesweb.mapper.UserMapper">
+    <select id="getUserList"  resultType="com.gupt.bigdata.sparkmoviesweb.entity.User">
+        select * from user order by userid asc;
+    </select>
+
+    <select id="getUserById" parameterType="int" resultType="com.gupt.bigdata.sparkmoviesweb.entity.User">
+        select * from user where userid = #{userid};
+    </select>
+
+    <select id="getUsersByName" parameterType="String" resultType="com.gupt.bigdata.sparkmoviesweb.entity.User">
+        select * from user where username = #{username} order by userid asc;
+    </select>
+    
+    <insert id="insertUser" parameterType="com.gupt.bigdata.sparkmoviesweb.entity.User"  keyProperty="userid" useGeneratedKeys="true">
+        insert into user (userid,username,password)
+        values (#{userid}, #{username, jdbcType=VARCHAR}, #{password, jdbcType=VARCHAR})
+    </insert>
+
+    <delete id="deleteUserById" parameterType="int">
+        delete from user where userid = #{userid};
+    </delete>
+
+    <update id="updatePasswordById" parameterType="com.gupt.bigdata.sparkmoviesweb.entity.User">
+        update user set username=#{username},password=#{password} where userid=#{userid}
+    </update>
+
+    <select id="loginUser" parameterType="com.gupt.bigdata.sparkmoviesweb.entity.User" resultType="com.gupt.bigdata.sparkmoviesweb.entity.User">
+        select * from user where username = #{username} and password = #{password} order by userid desc limit 1;
+    </select>
+
+</mapper>
